@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriggerExceptionHandler.Demo", "ExceptionHandler.Demo\TriggerExceptionHandler.Demo.csproj", "{BE46EE6B-DFAA-4037-8D2D-AE69F5C3C3FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriggerExceptionHandler.Demo", "TriggerExceptionHandler.Demo\TriggerExceptionHandler.Demo.csproj", "{BE46EE6B-DFAA-4037-8D2D-AE69F5C3C3FB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TriggerExceptionHandler", "TriggerExceptionHandler\TriggerExceptionHandler.csproj", "{84787762-2F45-4927-88A6-32D40A55E619}"
 EndProject

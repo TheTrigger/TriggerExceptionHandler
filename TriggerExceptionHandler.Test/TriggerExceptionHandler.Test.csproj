@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExceptionHandler.Demo\TriggerExceptionHandler.Demo.csproj" />
+    <ProjectReference Include="..\TriggerExceptionHandler.Demo\TriggerExceptionHandler.Demo.csproj" />
   </ItemGroup>
 
   <ItemGroup>
