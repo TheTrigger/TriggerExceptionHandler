@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>f.fabrizi91@gmail.com</Authors>
+    <Description>Handles exceptions and ModelState errors</Description>
+    <Copyright>f.fabrizi91@gmail.com</Copyright>
+    <PackageIconUrl>https://image.flaticon.com/icons/svg/179/179429.svg</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/TheTrigger/TriggerExceptionHandler.git</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/TheTrigger/TriggerExceptionHandler.git</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AssemblyVersion>1.00.0.0</AssemblyVersion>
+    <FileVersion>0.0.0.0</FileVersion>
+    <Version>0.1.0</Version>
+    <PackageTags>exceptions, mvc</PackageTags>
+    <PackageLicenseExpression>GNU</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Core">
+      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.mvc.core\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
