@@ -33,7 +33,21 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 
 ## Example responses
+
 ### Exceptions
+```json
+{
+    "type": "Exception",
+    "title": "Expected exception message",
+    "status": 500,
+    "detail": "...stack trace (if debugger is attached)",
+    "instance": "urn:ApplicationName:1299978476"
+}
+```
+
+
+### Dto Models
+
 ```json
 {
     "errors": {
@@ -46,16 +60,5 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     "status": 400,
     "detail": "One or more validation errors occurred",
     "instance": "urn:ApplicationName:759630415"
-}
-```
-
-### Dto Models
-```json
-{
-    "type": "Exception",
-    "title": "Expected exception message",
-    "status": 500,
-    "detail": "...stack trace (if debugger is attached)",
-    "instance": "urn:ApplicationName:1299978476"
 }
 ```
