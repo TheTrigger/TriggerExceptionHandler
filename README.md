@@ -1,6 +1,6 @@
 # TriggerExceptionHandler
 
-Super easy *ASP.NET Core Exception Handler & ModelState validator*
+*Super easy* **ASP.NET Core Exception Handler & ModelState validator**
 
 ## Startup.cs
 
