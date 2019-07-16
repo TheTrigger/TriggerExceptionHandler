@@ -1,6 +1,16 @@
 # TriggerExceptionHandler
 
+![Nuget](https://img.shields.io/nuget/dt/TriggerExceptionHandler.svg?label=NuGet%20Downloads&style=flat-square)
+
 *Super easy* **ASP.NET Core Exception Handler & ModelState validator** for MVC services
+
+```shell
+Install-Package TriggerExceptionHandler
+```
+
+```shell
+dotnet add package TriggerExceptionHandler
+```
 
 Some exceptions returns different `HttpStatusCode`:
 - `UnauthorizedAccessException`: `Unauthorized (401)`
