@@ -6,14 +6,12 @@ Some exceptions returns different `HttpStatusCode`:
 - `UnauthorizedAccessException`: `Unauthorized (401)`
 - `KeyNotFoundException`: `NotFound (404)`
 
-
 ## TODO list
 - [x] ILogger
 - [ ] Custom Dictionary<Type(Exception), HttpStatusCode>
 - [ ] Custom serializer
 - [ ] Conditional details
 - [ ] Extend status codes
-
 
 ## Startup.cs
 
@@ -31,7 +29,6 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 }
 ```
 
-
 ## Example responses
 
 ### Exceptions
@@ -44,7 +41,6 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     "instance": "urn:ApplicationName:1299978476"
 }
 ```
-
 
 ### Dto Models
 
