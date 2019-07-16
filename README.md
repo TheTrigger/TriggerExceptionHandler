@@ -1,5 +1,8 @@
 # TriggerExceptionHandler
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/577b53ee206c4c79a21e79494175f9b8)](https://app.codacy.com/app/TheTrigger/TriggerExceptionHandler?utm_source=github.com&utm_medium=referral&utm_content=TheTrigger/TriggerExceptionHandler&utm_campaign=Badge_Grade_Settings)
+
+
 *Super easy* **ASP.NET Core Exception Handler & ModelState validator** for MVC services
 
 Some exceptions returns different `HttpStatusCode`:
