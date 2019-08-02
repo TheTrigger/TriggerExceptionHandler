@@ -9,10 +9,10 @@
     <PackageProjectUrl>https://github.com/TheTrigger/TriggerExceptionHandler.git</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TheTrigger/TriggerExceptionHandler.git</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>0.0.0.0</FileVersion>
-    <Version>0.1.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>0.1.1.0</AssemblyVersion>
+    <FileVersion>0.1.1.0</FileVersion>
+    <Version>0.1.1</Version>
     <PackageTags>exceptions, mvc</PackageTags>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
