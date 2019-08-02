@@ -2,7 +2,7 @@
 
 ![Nuget](https://img.shields.io/nuget/dt/TriggerExceptionHandler.svg?label=NuGet%20Downloads&style=flat-square)
 
-*Super easy* **ASP.NET Core Exception Handler & ModelState validator** for MVC services
+*Super easy* **ASP.NET Core Exception Handler & ModelState validator** for Web API services
 
 ```shell
 Install-Package TriggerExceptionHandler
@@ -18,7 +18,7 @@ Some exceptions returns different `HttpStatusCode`:
 
 ## TODO list
 - [x] ILogger
-- [ ] Custom Dictionary<Type(Exception), HttpStatusCode>
+- [x] Custom Dictionary<Exception type, HttpStatusCode>
 - [ ] Custom serializer
 - [ ] Conditional details
 - [ ] Extend status codes
@@ -34,6 +34,9 @@ public void ConfigureServices(IServiceCollection services)
 
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
+    // custom http status codes
+    //app.UseTriggerExceptionHandler(nameof(TriggerExceptionHandler), exceptionsCode: new Ext2HttpCode { { typeof(ArgumentException), HttpStatusCode.Ambiguous } });
+
     app.UseTriggerExceptionHandler("ApplicationName");
     app.UseMvc();
 }
