@@ -38,7 +38,8 @@ namespace TriggerExceptionHandler.Models
                 context);
 
             context.HttpContext.Response.StatusCode = problemDetails.Status.Value;
-            context.HttpContext.Response.WriteJson(problemDetails, "application/problem+json");
+            context.HttpContext.Response.WriteJson(problemDetails, "application/json");
+            //context.HttpContext.Response.WriteJson(problemDetails, "application/problem+json"); // axios bug
 
             return Task.CompletedTask;
         }
