@@ -66,7 +66,8 @@ namespace TriggerExceptionHandler.Extensions
 
                 // log the exception etc..
                 context.Response.StatusCode = problemDetails.Status.Value;
-                context.Response.WriteJson(problemDetails, "application/problem+json");
+                //context.Response.WriteJson(problemDetails, "application/problem+json");
+                context.Response.WriteJson(problemDetails, "application/json"); // axios bug
 
                 return Task.CompletedTask;
             };
