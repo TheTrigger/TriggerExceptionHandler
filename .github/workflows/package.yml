@@ -16,7 +16,7 @@ jobs:
     
     - uses: olegtarasov/download-nuget@v1
     
-    - name: Setup nuget GITHUB_ACTOR ${GITHUB_ACTOR} {GITHUB_ACTOR} $GITHUB_ACTOR
+    - name: Setup nuget
       run: mono $NUGET_EXE source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/${GITHUB_REPOSITORY}/index.json" -UserName ${GITHUB_ACTOR}
     - name: Creating package
       run: mono $NUGET_EXE pack 
