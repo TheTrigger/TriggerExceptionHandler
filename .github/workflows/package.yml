@@ -17,8 +17,8 @@ jobs:
     - uses: olegtarasov/download-nuget@v1
     
     - name: Setup nuget
-      run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/${GITHUB_REPOSITORY}/index.json" -UserName ${GITHUB_ACTOR}
+      run: mono $NUGET_EXE source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/${GITHUB_REPOSITORY}/index.json" -UserName ${GITHUB_ACTOR}
     - name: Creating package
       run: mono $NUGET_EXE pack 
     - name: Pushing to local registry
-      run: nuget push *.nupkg -Source "GitHub"
+      run: mono $NUGET_EXE push *.nupkg -Source "GitHub"
