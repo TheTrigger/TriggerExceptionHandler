@@ -13,9 +13,12 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.108 
+        
+    - uses: olegtarasov/download-nuget@v1
+    
     - name: Setup nuget
       run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/${GITHUB_REPOSITORY}/index.json" -UserName ${GITHUB_ACTOR}
     - name: Creating package
-      run: nuget pack
+      run: mono $NUGET_EXE pack 
     - name: Pushing to local registry
       run: nuget push *.nupkg -Source "GitHub"
