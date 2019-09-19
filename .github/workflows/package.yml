@@ -8,10 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    
-    - name: Testing robe
-    - run: echo "GITHUB_ACTOR ${GITHUB_ACTOR} {GITHUB_ACTOR} $GITHUB_ACTOR"
-    
     - uses: actions/checkout@master
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -20,9 +16,7 @@ jobs:
     
     - uses: olegtarasov/download-nuget@v1
     
-
-    
-    - name: Setup nuget
+    - name: Setup nuget GITHUB_ACTOR ${GITHUB_ACTOR} {GITHUB_ACTOR} $GITHUB_ACTOR
       run: mono $NUGET_EXE source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/${GITHUB_REPOSITORY}/index.json" -UserName ${GITHUB_ACTOR}
     - name: Creating package
       run: mono $NUGET_EXE pack 
