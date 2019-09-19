@@ -15,11 +15,9 @@ jobs:
         dotnet-version: 2.2.108 
     
     - uses: olegtarasov/download-nuget@v1
-    - name: Where
-    - run: pwd
     - name: Setup nuget
       run: mono $NUGET_EXE source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/${GITHUB_REPOSITORY}/index.json" -UserName ${GITHUB_ACTOR} -Password ${{ secrets.GITHUB_PASSWORD }}
     - name: Creating package
-      run: mono $NUGET_EXE pack 
+      run: mono $NUGET_EXE pack TriggerExceptionHandler.csproj
     - name: Pushing to local registry
       run: mono $NUGET_EXE push *.nupkg -Source "GitHub"
