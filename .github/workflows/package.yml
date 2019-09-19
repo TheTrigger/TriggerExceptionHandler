@@ -12,10 +12,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.2.108
-    - name: Setup Nuget.exe
-      uses: warrenbuckley/Setup-Nuget@v1
-      
+        dotnet-version: 2.2.108 
     - name: Setup nuget
       run: nuget source Add -Name "GitHub" -Source "https://nuget.pkg.github.com/${GITHUB_REPOSITORY}/index.json" -UserName ${GITHUB_ACTOR}
     - name: Creating package
