@@ -29,7 +29,7 @@ namespace TriggerExceptionHandler
             set
             {
                 if (!typeof(Exception).IsAssignableFrom(exceptionType))
-                    throw new TypeAccessException($"{nameof(exceptionType)} must derive from {nameof(Exception)}, {exceptionType.GetType()} given");
+                    throw new TypeAccessException($"{nameof(exceptionType)} must derive from {nameof(Exception)}, {exceptionType} given");
 
                 _exceptionsCode[exceptionType] = value;
             }
