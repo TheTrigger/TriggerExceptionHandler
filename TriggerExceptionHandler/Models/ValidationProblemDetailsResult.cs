@@ -5,6 +5,7 @@ using TriggerExceptionHandler.Extensions;
 
 namespace TriggerExceptionHandler.Models
 {
+
     public class ValidationProblemDetailsResult : IActionResult
     {
         private readonly string _applicationName;
@@ -16,32 +17,26 @@ namespace TriggerExceptionHandler.Models
             _logger = logger;
         }
 
-
-        public Task ExecuteResultAsync(ActionContext context)
+        /// <summary>
+        /// Invoked from <see cref="TriggerExceptionHandler.Attributes.ValidateModelStateAttribute"/>
+        /// </summary>
+        public async Task ExecuteResultAsync(ActionContext context)
         {
             var eventId = new EventId(context.HttpContext.TraceIdentifier.GetHashCode(), nameof(ValidationProblemDetails));
 
             var problemDetails = new ValidationProblemDetails(context.ModelState)
             {
                 Detail = "One or more validation errors occurred",
-                Instance = $"urn:{_applicationName}:{eventId.Id}",
+                Instance = $"urn:{_applicationName}:{eventId.Id.ToString()}",
                 Status = 400,
                 Type = typeof(ValidationProblemDetails).Name,
                 Title = "Request Validation Error",
             };
 
-            _logger?.LogWarning(
-                eventId: eventId,
-                message: problemDetails.Detail,
-
-                problemDetails,
-                context);
+            _logger?.LogWarning( eventId: eventId, message: problemDetails.Detail,problemDetails, context);
 
             context.HttpContext.Response.StatusCode = problemDetails.Status.Value;
-            //context.HttpContext.Response.WriteJson(problemDetails, "application/problem+json"); // axios bug
-            context.HttpContext.Response.WriteJson(problemDetails, "application/json");
-
-            return Task.CompletedTask;
+            await context.HttpContext.Response.WriteJsonAsync(problemDetails);
         }
     }
 }

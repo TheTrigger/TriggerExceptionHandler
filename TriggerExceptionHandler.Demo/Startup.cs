@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using TriggerExceptionHandler.Extensions;
 
 namespace TriggerExceptionHandler.Demo
@@ -21,17 +22,22 @@ namespace TriggerExceptionHandler.Demo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            //services.AddMvc();
+            services.AddControllers();
+
             services.TriggerInvalidModelStateResponse();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseTriggerExceptionHandler(env.ApplicationName);
 
-            app.UseTriggerExceptionHandler(nameof(TriggerExceptionHandler));
-
-            app.UseMvc();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

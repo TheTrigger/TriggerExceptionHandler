@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace TriggerExceptionHandler.Extensions
 {
@@ -14,63 +12,37 @@ namespace TriggerExceptionHandler.Extensions
         /// <summary>
         /// Adds a middleware to the pipeline that will catch exceptions, log them, and retrieve a standard response
         /// </summary>
-        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app,
-            string applicationName, ILogger logger = null, Ext2HttpCode exceptionsCode = null
-            )
+        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, ILogger logger = null, Ext2HttpCode exceptionsCode = null)
         {
-            var he = new HandleException(applicationName, logger, exceptionsCode);
-            return app.UseExceptionHandler(new ExceptionHandlerOptions
+            if (applicationName == null) throw new ArgumentNullException(nameof(applicationName));
+            
+            if (exceptionsCode == null)
+                exceptionsCode = new Ext2HttpCode();
+
+            app.UseExceptionHandler(a => a.Run(async context =>
             {
-                ExceptionHandler = he.HandleRequest,
-            });
-        }
-
-
-        class HandleException
-        {
-            private static string _applicationName;
-            private static ILogger _logger;
-            private static Ext2HttpCode _exceptionsCode;
-
-            public HandleException(string applicationName, ILogger logger, Ext2HttpCode exceptionsCode)
-            {
-                _applicationName = applicationName;
-                _logger = logger;
-                _exceptionsCode = exceptionsCode ?? new Ext2HttpCode();
-            }
-
-            public RequestDelegate HandleRequest = (context) =>
-            {
-                bool showDetails = Debugger.IsAttached;
+                var showDetails = Debugger.IsAttached;
 
                 var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
                 var exception = errorFeature.Error;
 
                 var eventId = new EventId(context.TraceIdentifier.GetHashCode(), nameof(Exception));
-                _logger?.LogError(
-                    eventId: eventId,
-                    exception: exception,
-                    message: exception.Message,
 
-                    context.Request);
+                logger?.LogError(eventId: eventId, exception: exception, message: exception.Message, context.Request);
 
                 var problemDetails = new ProblemDetails
                 {
                     Detail = showDetails ? exception.ToString() : null,
-                    Instance = $"urn:{_applicationName}:{eventId.Id}",
+                    Instance = $"urn:{applicationName}:{eventId.Id.ToString()}",
                     Title = exception.Message,
                     Type = exception.GetType().Name,
-                    Status = _exceptionsCode[exception]
+                    Status = exceptionsCode[exception]
                 };
 
+                await context.Response.WriteJsonAsync(problemDetails);
+            }));
 
-                // log the exception etc..
-                context.Response.StatusCode = problemDetails.Status.Value;
-                //context.Response.WriteJson(problemDetails, "application/problem+json");
-                context.Response.WriteJson(problemDetails, "application/json"); // axios bug
-
-                return Task.CompletedTask;
-            };
+            return app;
         }
     }
 }

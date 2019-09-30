@@ -1,33 +1,30 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.WebUtilities;
-using Newtonsoft.Json;
-using System.Text;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace TriggerExceptionHandler.Extensions
 {
     public static class HttpExtensions
     {
-        private static readonly Encoding _encoding = Encoding.UTF8;
-        private static readonly string _defaultContentType = "application/json";
+        private const string DefaultContentType = "application/json";
 
-        private static readonly JsonSerializer Serializer = new JsonSerializer
+        /*
+        private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
         {
-            NullValueHandling = NullValueHandling.Ignore
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            IgnoreNullValues = true,
         };
-
-        public static void WriteJson<T>(this HttpResponse response, T obj, string contentType = null)
+        */
+        
+        /// <summary>
+        /// Write json <see langword="async"/> to <see cref="HttpContext"/>
+        /// </summary>
+        internal static async Task WriteJsonAsync<T>([NotNull] this HttpResponse response, [NotNull] T obj, string contentType = null)
         {
-            response.ContentType = contentType ?? _defaultContentType;
-            using (var writer = new HttpResponseStreamWriter(response.Body, _encoding))
-            {
-                using (var jsonWriter = new JsonTextWriter(writer))
-                {
-                    jsonWriter.CloseOutput = false;
-                    jsonWriter.AutoCompleteOnClose = false;
-
-                    Serializer.Serialize(jsonWriter, obj);
-                }
-            }
+            response.ContentType = contentType ?? DefaultContentType;
+            var result = JsonSerializer.Serialize(obj);
+            await response.WriteAsync(result); // aspnetcore 3.0 requires WriteAsync on response
         }
     }
 }
