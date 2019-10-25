@@ -13,9 +13,11 @@ namespace TriggerExceptionHandler
             {  typeof(KeyNotFoundException), HttpStatusCode.NotFound },
         };
 
+
         /// <summary>
         /// Retrieve <see cref="HttpStatusCode"/> from <see cref="Exception"/> type
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "indexer can't be static lol")]
         public HttpStatusCode this[Type exceptionType]
         {
             get

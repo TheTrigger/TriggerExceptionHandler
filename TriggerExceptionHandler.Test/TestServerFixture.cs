@@ -21,8 +21,17 @@ namespace TriggerExceptionHandler.Test
 
         public void Dispose()
         {
-            Client.Dispose();
-            _testServer.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Client?.Dispose();
+                _testServer?.Dispose();
+            }
         }
     }
 }
