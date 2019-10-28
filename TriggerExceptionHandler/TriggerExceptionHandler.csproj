@@ -3,17 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>f.fabrizi91@gmail.com</Authors>
-    <Description>Handles exceptions and ModelState errors</Description>
+    <Description>Web API exceptions and model state errors handler, returning a standard json response</Description>
     <Copyright>f.fabrizi91@gmail.com</Copyright>
     <PackageIconUrl>https://image.flaticon.com/icons/svg/179/179429.svg</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TheTrigger/TriggerExceptionHandler.git</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TheTrigger/TriggerExceptionHandler.git</RepositoryUrl>
-    <RepositoryType>GitHub</RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyVersion>2019.9.30.27</AssemblyVersion>
     <FileVersion>2019.9.30.27</FileVersion>
-    <Version>0.1.2</Version>
-    <PackageTags>exceptions, mvc</PackageTags>
+    <Version>3.0.1</Version>
+    <PackageTags>exceptions, json, web, api</PackageTags>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <LangVersion>8</LangVersion>
