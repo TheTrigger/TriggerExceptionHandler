@@ -1,5 +1,4 @@
-﻿using TriggerExceptionHandler.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace TriggerExceptionHandler.Extensions
@@ -8,10 +7,9 @@ namespace TriggerExceptionHandler.Extensions
     {
         public static IServiceCollection TriggerInvalidModelStateResponse(this IServiceCollection services)
         {
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.InvalidModelStateResponseFactory = ctx => new ValidationProblemDetailsResult();
-            });
+            services.Configure<ApiBehaviorOptions>(
+                options => options.InvalidModelStateResponseFactory =
+                    _ => new ValidationProblemDetailsResult());
 
             return services;
         }

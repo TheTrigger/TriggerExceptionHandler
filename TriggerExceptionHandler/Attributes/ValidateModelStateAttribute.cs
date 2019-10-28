@@ -1,5 +1,4 @@
-﻿using TriggerExceptionHandler.Models;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace TriggerExceptionHandler.Attributes
 {

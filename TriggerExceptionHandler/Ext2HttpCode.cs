@@ -13,7 +13,6 @@ namespace TriggerExceptionHandler
             {  typeof(KeyNotFoundException), HttpStatusCode.NotFound },
         };
 
-
         /// <summary>
         /// Retrieve <see cref="HttpStatusCode"/> from <see cref="Exception"/> type
         /// </summary>

@@ -9,22 +9,15 @@ namespace TriggerExceptionHandler.Extensions
     {
         private const string DefaultContentType = "application/json";
 
-        /*
-        private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            IgnoreNullValues = true,
-        };
-        */
-        
         /// <summary>
         /// Write json <see langword="async"/> to <see cref="HttpContext"/>
         /// </summary>
         internal static async Task WriteJsonAsync<T>([NotNull] this HttpResponse response, [NotNull] T obj, string contentType = null)
         {
             response.ContentType = contentType ?? DefaultContentType;
+
             var result = JsonSerializer.Serialize(obj);
-            await response.WriteAsync(result); // aspnetcore 3.0 requires WriteAsync on response
+            await response.WriteAsync(result).ConfigureAwait(false); // aspnetcore 3.0 requires WriteAsync on response
         }
     }
 }
