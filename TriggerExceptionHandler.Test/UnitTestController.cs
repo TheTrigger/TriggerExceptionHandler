@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TriggerExceptionHandler.Models;
 using Xunit;
 
 namespace TriggerExceptionHandler.Test
@@ -16,11 +14,11 @@ namespace TriggerExceptionHandler.Test
         public async Task TestExceptionHandler()
         {
             using var fixture = new TestServerFixture();
-            var response = await fixture.Client.GetAsync("/api/demo/");
+            var response = await fixture.Client.GetAsync("/api/demo/").ConfigureAwait(false);
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
 
-            var content = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             Assert.NotEmpty(content);
 
             var problemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(content);
@@ -43,10 +41,10 @@ namespace TriggerExceptionHandler.Test
                 "application/json"
             );
 
-            var response = await fixture.Client.PostAsync("/api/demo/validate/", parameters);
+            var response = await fixture.Client.PostAsync("/api/demo/validate/", parameters).ConfigureAwait(false);
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 
-            var content = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             Assert.NotEmpty(content);
 
             var problemDetails = JsonConvert.DeserializeObject<ValidationProblemDetails>(content);
@@ -58,6 +56,20 @@ namespace TriggerExceptionHandler.Test
             Assert.True(problemDetails.Status.Value == (int)response.StatusCode);
             Assert.NotNull(problemDetails.Errors);
             Assert.NotEmpty(problemDetails.Errors);
+        }
+
+        [Theory]
+        [InlineData("/api/wtf")]
+        [InlineData("???")]
+        [InlineData("hello/?query=true")]
+        [InlineData("../../")]
+        public async Task Test404Routes(string path)
+        {
+            using var fixture = new TestServerFixture();
+            var response = await fixture.Client.GetAsync(path).ConfigureAwait(false);
+
+            Assert.NotNull(response);
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
     }
 }

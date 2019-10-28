@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 using System.Reflection;
 using TriggerExceptionHandler.Extensions;
 
@@ -37,6 +38,7 @@ namespace TriggerExceptionHandler.Demo
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.Map("{*url}", rd => throw new KeyNotFoundException($"Unable to find route: [{rd.Request.Method}] {rd.Request.Path}"));
             });
         }
     }
