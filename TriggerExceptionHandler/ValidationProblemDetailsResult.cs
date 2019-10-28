@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Threading.Tasks;
 using TriggerExceptionHandler.Extensions;
 
-namespace TriggerExceptionHandler.Models
+namespace TriggerExceptionHandler
 {
-
     public class ValidationProblemDetailsResult : IActionResult
     {
         private readonly string _applicationName;
-        private static ILogger _logger;
+        private readonly ILogger _logger;
 
-        public ValidationProblemDetailsResult(string applicationName = null, ILogger logger = null)
+        public ValidationProblemDetailsResult(string applicationName = null, ILogger<ValidationProblemDetailsResult> logger = null)
         {
             _applicationName = applicationName;
             _logger = logger;
@@ -28,15 +28,15 @@ namespace TriggerExceptionHandler.Models
             {
                 Detail = "One or more validation errors occurred",
                 Instance = $"urn:{_applicationName}:{eventId.Id.ToString()}",
-                Status = 400,
-                Type = typeof(ValidationProblemDetails).Name,
+                Status = (int)HttpStatusCode.BadRequest,
+                Type = nameof(ValidationProblemDetails),
                 Title = "Request Validation Error",
             };
 
-            _logger?.LogWarning( eventId: eventId, message: problemDetails.Detail,problemDetails, context);
+            _logger?.LogWarning(eventId: eventId, message: problemDetails.Detail, problemDetails, context);
 
             context.HttpContext.Response.StatusCode = problemDetails.Status.Value;
-            await context.HttpContext.Response.WriteJsonAsync(problemDetails);
+            await context.HttpContext.Response.WriteJsonAsync(problemDetails).ConfigureAwait(false);
         }
     }
 }
