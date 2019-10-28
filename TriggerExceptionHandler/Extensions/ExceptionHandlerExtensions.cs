@@ -9,15 +9,41 @@ namespace TriggerExceptionHandler.Extensions
 {
     public static class ExceptionHandlerExtensions
     {
+        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName)
+        {
+            return app.UseTriggerExceptionHandler(applicationName, new Ext2HttpCode());
+        }
+
+        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, ILogger logger)
+        {
+            return app.UseTriggerExceptionHandler(applicationName, logger, new Ext2HttpCode());
+        }
+
+        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, Ext2HttpCode exceptionsCode)
+        {
+            var logger = app.ApplicationServices.GetService(typeof(ILogger)) as ILogger;
+
+            return app.UseTriggerExceptionHandler(
+                applicationName: applicationName,
+                logger: logger,
+                exceptionsCode: exceptionsCode
+            );
+        }
+
         /// <summary>
         /// Adds a middleware to the pipeline that will catch exceptions, log them, and retrieve a standard response
         /// </summary>
-        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, ILogger logger = null, Ext2HttpCode exceptionsCode = null)
+        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, ILogger logger, Ext2HttpCode exceptionsCode)
         {
-            if (applicationName == null) throw new ArgumentNullException(nameof(applicationName));
+            if (applicationName == null)
+            {
+                throw new ArgumentNullException(nameof(applicationName));
+            }
 
             if (exceptionsCode == null)
-                exceptionsCode = new Ext2HttpCode();
+            {
+                throw new ArgumentNullException(nameof(exceptionsCode));
+            }
 
             app.UseExceptionHandler(a => a.Run(async context =>
             {

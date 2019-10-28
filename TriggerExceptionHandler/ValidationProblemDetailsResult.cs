@@ -8,12 +8,14 @@ namespace TriggerExceptionHandler
 {
     public class ValidationProblemDetailsResult : IActionResult
     {
-        private readonly string _applicationName;
         private readonly ILogger _logger;
 
-        public ValidationProblemDetailsResult(string applicationName = null, ILogger<ValidationProblemDetailsResult> logger = null)
+        public ValidationProblemDetailsResult()
         {
-            _applicationName = applicationName;
+        }
+
+        public ValidationProblemDetailsResult(ILogger<ValidationProblemDetailsResult> logger)
+        {
             _logger = logger;
         }
 
@@ -27,7 +29,7 @@ namespace TriggerExceptionHandler
             var problemDetails = new ValidationProblemDetails(context.ModelState)
             {
                 Detail = "One or more validation errors occurred",
-                Instance = $"urn:{_applicationName}:{eventId.Id.ToString()}",
+                //Instance = $"urn:{_applicationName}:{eventId.Id.ToString()}",
                 Status = (int)HttpStatusCode.BadRequest,
                 Type = nameof(ValidationProblemDetails),
                 Title = "Request Validation Error",
