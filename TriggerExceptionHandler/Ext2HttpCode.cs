@@ -19,18 +19,14 @@ namespace TriggerExceptionHandler
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "indexer can't be static lol")]
         public HttpStatusCode this[Type exceptionType]
         {
-            get
-            {
-                if (_exceptionsCode.ContainsKey(exceptionType))
-                    return _exceptionsCode[exceptionType];
-
-                return HttpStatusCode.InternalServerError;
-            }
+            get => _exceptionsCode.ContainsKey(exceptionType) ? _exceptionsCode[exceptionType] : HttpStatusCode.InternalServerError;
 
             set
             {
                 if (!typeof(Exception).IsAssignableFrom(exceptionType))
+                {
                     throw new TypeAccessException($"{nameof(exceptionType)} must derive from {nameof(Exception)}, {exceptionType} given");
+                }
 
                 _exceptionsCode[exceptionType] = value;
             }

@@ -1,7 +1,7 @@
 # TriggerExceptionHandler
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/577b53ee206c4c79a21e79494175f9b8)](https://app.codacy.com/app/TheTrigger/TriggerExceptionHandler?utm_source=github.com&utm_medium=referral&utm_content=TheTrigger/TriggerExceptionHandler&utm_campaign=Badge_Grade_Settings)
-
+[![Maintainability](https://api.codeclimate.com/v1/badges/001b282305a6211ef0d6/maintainability)](https://codeclimate.com/github/TheTrigger/Oibi.Repository/maintainability)
 ![Nuget](https://img.shields.io/nuget/dt/TriggerExceptionHandler.svg?label=NuGet%20Downloads&style=flat-square)
 
 _Super easy_ **ASP.NET Core Exception Handler + ModelState validator** for Web API services.
