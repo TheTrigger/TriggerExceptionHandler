@@ -7,10 +7,10 @@ namespace TriggerExceptionHandler
 {
     public class Ext2HttpCode : IEnumerable<KeyValuePair<Type, HttpStatusCode>>
     {
-        private static readonly IDictionary<Type, HttpStatusCode> _exceptionsCode = new Dictionary<Type, HttpStatusCode>()
+        private static readonly IDictionary<Type, HttpStatusCode> _exceptionsCode = new Dictionary<Type, HttpStatusCode>
         {
-            {  typeof(UnauthorizedAccessException), HttpStatusCode.Unauthorized },
-            {  typeof(KeyNotFoundException), HttpStatusCode.NotFound },
+            [typeof(UnauthorizedAccessException)] = HttpStatusCode.Unauthorized,
+            [typeof(KeyNotFoundException)] = HttpStatusCode.NotFound,
         };
 
         /// <summary>
