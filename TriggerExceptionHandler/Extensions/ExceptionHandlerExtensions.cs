@@ -11,12 +11,12 @@ namespace TriggerExceptionHandler.Extensions
     {
         public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName)
         {
-            return app.UseTriggerExceptionHandler(applicationName, new Ext2HttpCode());
+            return app.UseTriggerExceptionHandler(applicationName: applicationName, logger: null);
         }
 
         public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, ILogger logger)
         {
-            return app.UseTriggerExceptionHandler(applicationName, logger, new Ext2HttpCode());
+            return app.UseTriggerExceptionHandler(applicationName: applicationName, logger: logger, exceptionsCode: new Ext2HttpCode());
         }
 
         public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, Ext2HttpCode exceptionsCode)
@@ -35,12 +35,12 @@ namespace TriggerExceptionHandler.Extensions
         /// </summary>
         public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, ILogger logger, Ext2HttpCode exceptionsCode)
         {
-            if (applicationName == null)
+            if (applicationName is null)
             {
                 throw new ArgumentNullException(nameof(applicationName));
             }
 
-            if (exceptionsCode == null)
+            if (exceptionsCode is null)
             {
                 throw new ArgumentNullException(nameof(exceptionsCode));
             }
@@ -62,7 +62,7 @@ namespace TriggerExceptionHandler.Extensions
                     Instance = $"urn:{applicationName}:{eventId.Id.ToString()}",
                     Title = exception.Message,
                     Type = exceptionName,
-                    Status = exceptionsCode[exception]
+                    Status = (int)exceptionsCode.Get(exception),
                 };
 
                 logger?.LogError(eventId: eventId, exception: exception, message: exception.Message, context.Request);
