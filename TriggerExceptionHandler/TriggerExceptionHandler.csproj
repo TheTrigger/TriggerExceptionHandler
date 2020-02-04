@@ -10,14 +10,16 @@
     <RepositoryUrl>https://github.com/TheTrigger/TriggerExceptionHandler.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>2019.12.13</AssemblyVersion>
-    <FileVersion>2019.12.13</FileVersion>
-    <Version>3.0.2</Version>
+    <AssemblyVersion>3.1.1</AssemblyVersion>
+    <FileVersion>3.1.1</FileVersion>
+    <Version>3.1.1</Version>
     <PackageTags>exceptions, json, web, api</PackageTags>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <LangVersion>8</LangVersion>
     <PackageReleaseNotes>refactoring</PackageReleaseNotes>
+    <Company>oibi.dev</Company>
+    <Product>TriggerExceptionHandler</Product>
   </PropertyGroup>
 
   <ItemGroup>

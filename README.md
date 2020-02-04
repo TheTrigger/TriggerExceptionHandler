@@ -6,7 +6,7 @@
 
 _Super easy_ **ASP.NET Core Exception Handler + ModelState validator** for Web API services.
 
-- [ASP.NET Core 3.0](https://dotnet.microsoft.com/download/dotnet-core/3.0) ready
+- [ASP.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.0) ready
 - Easy to use (just few lines)
 - **Standard** models
   - https://tools.ietf.org/html/rfc7807
@@ -42,8 +42,6 @@ using TriggerExceptionHandler.Extensions;
 
 public void ConfigureServices(IServiceCollection services)
 {
-    // services.AddMvc(); (you can still use AddMvc)
-    // Please see: https://devblogs.microsoft.com/aspnet/asp-net-core-updates-in-net-core-3-0-preview-4/
     services.AddControllers();
 
     services.TriggerInvalidModelStateResponse();
