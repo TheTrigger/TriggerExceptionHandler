@@ -48,7 +48,7 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 ```C#
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TriggerExceptionHandler exceptionHandler)
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TriggerExceptionService exceptionHandler)
 {
     app.UseTriggerExceptionHandler(exceptionHandler);
 

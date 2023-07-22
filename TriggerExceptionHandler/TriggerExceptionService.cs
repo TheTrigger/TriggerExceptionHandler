@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace TriggerExceptionHandler;
 
-public class TriggerExceptionHandler
+public class TriggerExceptionService
 {
     private readonly IOptions<JsonOptions> _jsonOptions;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    public TriggerExceptionHandler(IOptions<JsonOptions> jsonOptions)
+    public TriggerExceptionService(IOptions<JsonOptions> jsonOptions)
     {
         _jsonOptions = jsonOptions;
         _jsonSerializerOptions = _jsonOptions.Value.JsonSerializerOptions;

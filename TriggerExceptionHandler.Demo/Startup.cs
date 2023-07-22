@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using TriggerExceptionHandler.Extensions;
 
 namespace TriggerExceptionHandler.Demo
@@ -33,14 +34,14 @@ namespace TriggerExceptionHandler.Demo
                 options.JsonSerializerOptions.WriteIndented = true;
 #endif
                 options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                options.JsonSerializerOptions.IgnoreNullValues = true;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                 options.JsonSerializerOptions.AllowTrailingCommas = true;
                 options.JsonSerializerOptions.ReadCommentHandling = System.Text.Json.JsonCommentHandling.Skip;
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(TriggerExceptionHandler exceptionHandler, IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(TriggerExceptionService exceptionHandler, IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseTriggerExceptionHandler(exceptionHandler);
 

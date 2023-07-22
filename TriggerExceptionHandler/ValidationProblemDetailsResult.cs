@@ -22,7 +22,7 @@ namespace TriggerExceptionHandler
         }
 
         /// <summary>
-        /// Invoked from <see cref="TriggerExceptionHandler.Attributes.ValidateModelStateAttribute"/>
+        /// Invoked from <see cref="TriggerExceptionService.Attributes.ValidateModelStateAttribute"/>
         /// </summary>
         public Task ExecuteResultAsync(ActionContext context)
         {

@@ -8,7 +8,7 @@ public static class ExceptionHandlerExtensions
     /// <summary>
     /// Adds a middleware to the pipeline that will catch exceptions, log them, and retrieve a standard response
     /// </summary>
-    public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, TriggerExceptionHandler triggerExceptionHandler)
+    public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, TriggerExceptionService triggerExceptionHandler)
     {
         app.UseExceptionHandler(configure => configure.Use(triggerExceptionHandler.HandleExceptionAndWriteResponse));
         return app;
@@ -16,7 +16,7 @@ public static class ExceptionHandlerExtensions
 
     public static IServiceCollection AddTriggerExceptionHandler(this IServiceCollection services) // TODO: add configure
     {
-        services.AddSingleton<TriggerExceptionHandler>();
+        services.AddSingleton<TriggerExceptionService>();
 
         services.AddScoped<ValidationProblemDetailsResult>();
         services.TriggerInvalidModelStateResponse();
