@@ -1,44 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
-using TriggerExceptionHandler.Extensions;
 
 namespace TriggerExceptionHandler
 {
     public class ValidationProblemDetailsResult : IActionResult
     {
         private readonly ILogger _logger;
+        private readonly IOptions<JsonOptions> _jsonOptions;
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public ValidationProblemDetailsResult()
-        {
-        }
-
-        public ValidationProblemDetailsResult(ILogger<ValidationProblemDetailsResult> logger)
+        public ValidationProblemDetailsResult(ILogger<ValidationProblemDetailsResult> logger, IOptions<JsonOptions> jsonOptions)
         {
             _logger = logger;
+            _jsonOptions = jsonOptions;
+            _jsonSerializerOptions = _jsonOptions.Value.JsonSerializerOptions;
         }
 
         /// <summary>
         /// Invoked from <see cref="TriggerExceptionHandler.Attributes.ValidateModelStateAttribute"/>
         /// </summary>
-        public async Task ExecuteResultAsync(ActionContext context)
+        public Task ExecuteResultAsync(ActionContext context)
         {
-            var eventId = new EventId(context.HttpContext.TraceIdentifier.GetHashCode(), nameof(ValidationProblemDetails));
-
+            var httpContext = context.HttpContext;
+            
             var problemDetails = new ValidationProblemDetails(context.ModelState)
             {
                 Detail = "One or more validation errors occurred",
-                //Instance = $"urn:{_applicationName}:{eventId.Id.ToString()}",
                 Status = (int)HttpStatusCode.BadRequest,
                 Type = nameof(ValidationProblemDetails),
                 Title = "Request Validation Error",
             };
 
-            _logger?.LogWarning(eventId: eventId, message: problemDetails.Detail, problemDetails, context);
+            _logger.LogWarning(message: "Validation Problem: {title} {details}", problemDetails.Title, problemDetails.Detail);
 
-            context.HttpContext.Response.StatusCode = problemDetails.Status.Value;
-            await context.HttpContext.Response.WriteJsonAsync(problemDetails).ConfigureAwait(false);
+            httpContext.Response.StatusCode = problemDetails.Status.Value;
+            return httpContext.Response.WriteAsJsonAsync(problemDetails, _jsonSerializerOptions);
         }
     }
 }

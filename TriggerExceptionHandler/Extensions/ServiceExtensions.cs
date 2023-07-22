@@ -7,9 +7,11 @@ namespace TriggerExceptionHandler.Extensions
     {
         public static IServiceCollection TriggerInvalidModelStateResponse(this IServiceCollection services)
         {
-            services.Configure<ApiBehaviorOptions>(
-                options => options.InvalidModelStateResponseFactory =
-                    _ => new ValidationProblemDetailsResult());
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = 
+                    context => context.HttpContext.RequestServices.GetRequiredService<ValidationProblemDetailsResult>();
+            });
 
             return services;
         }

@@ -25,14 +25,24 @@ namespace TriggerExceptionHandler.Demo
         {
             //services.AddMvc();
             services.AddControllers();
+            services.AddTriggerExceptionHandler();
 
-            services.TriggerInvalidModelStateResponse();
+            services.AddControllers().AddControllersAsServices().AddJsonOptions(options =>
+            {
+#if DEBUG
+                options.JsonSerializerOptions.WriteIndented = true;
+#endif
+                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+                options.JsonSerializerOptions.AllowTrailingCommas = true;
+                options.JsonSerializerOptions.ReadCommentHandling = System.Text.Json.JsonCommentHandling.Skip;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(TriggerExceptionHandler exceptionHandler, IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseTriggerExceptionHandler(env.ApplicationName);
+            app.UseTriggerExceptionHandler(exceptionHandler);
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>

@@ -6,8 +6,7 @@
 
 _Super easy_ **ASP.NET Core Exception Handler + ModelState validator** for Web API services.
 
-- [ASP.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.0) ready
-- Easy to use (just few lines)
+- ASP.NET Core 6
 - **Standard** models
   - https://tools.ietf.org/html/rfc7807
   - [ValidationProblemDetails model](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.validationproblemdetails?view=aspnetcore-2.2&viewFallbackFrom=viewFallbackFrom%3Daspnetcore-3.0)
@@ -44,17 +43,14 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddControllers();
 
-    services.TriggerInvalidModelStateResponse();
+    services.AddTriggerExceptionHandler();
 }
 ```
 
 ```C#
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TriggerExceptionHandler exceptionHandler)
 {
-    // custom http status codes:
-    // app.UseTriggerExceptionHandler(env.ApplicationName, exceptionsCode: new Ext2HttpCode { { typeof(ArgumentException), HttpStatusCode.Ambiguous } });
-
-    app.UseTriggerExceptionHandler(env.ApplicationName);
+    app.UseTriggerExceptionHandler(exceptionHandler);
 
     app.UseRouting();
     app.UseEndpoints(endpoints =>

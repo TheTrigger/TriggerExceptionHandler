@@ -1,77 +1,27 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace TriggerExceptionHandler.Extensions
+namespace TriggerExceptionHandler.Extensions;
+
+public static class ExceptionHandlerExtensions
 {
-    public static class ExceptionHandlerExtensions
+    /// <summary>
+    /// Adds a middleware to the pipeline that will catch exceptions, log them, and retrieve a standard response
+    /// </summary>
+    public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, TriggerExceptionHandler triggerExceptionHandler)
     {
-        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName)
-        {
-            return app.UseTriggerExceptionHandler(applicationName: applicationName, logger: null);
-        }
+        app.UseExceptionHandler(configure => configure.Use(triggerExceptionHandler.HandleExceptionAndWriteResponse));
+        return app;
+    }
 
-        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, ILogger logger)
-        {
-            return app.UseTriggerExceptionHandler(applicationName: applicationName, logger: logger, exceptionsCode: new Ext2HttpCode());
-        }
+    public static IServiceCollection AddTriggerExceptionHandler(this IServiceCollection services) // TODO: add configure
+    {
+        services.AddSingleton<TriggerExceptionHandler>();
 
-        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, Ext2HttpCode exceptionsCode)
-        {
-            var logger = app.ApplicationServices.GetService(typeof(ILogger)) as ILogger;
+        services.AddScoped<ValidationProblemDetailsResult>();
+        services.TriggerInvalidModelStateResponse();
 
-            return app.UseTriggerExceptionHandler(
-                applicationName: applicationName,
-                logger: logger,
-                exceptionsCode: exceptionsCode
-            );
-        }
-
-        /// <summary>
-        /// Adds a middleware to the pipeline that will catch exceptions, log them, and retrieve a standard response
-        /// </summary>
-        public static IApplicationBuilder UseTriggerExceptionHandler(this IApplicationBuilder app, string applicationName, ILogger logger, Ext2HttpCode exceptionsCode)
-        {
-            if (applicationName is null)
-            {
-                throw new ArgumentNullException(nameof(applicationName));
-            }
-
-            if (exceptionsCode is null)
-            {
-                throw new ArgumentNullException(nameof(exceptionsCode));
-            }
-
-            app.UseExceptionHandler(a => a.Run(async context =>
-            {
-                var showDetails = Debugger.IsAttached;
-
-                // ExceptionHandlerFeature
-                var errorFeature = context.Features.Get<IExceptionHandlerFeature>();
-                var exception = errorFeature.Error;
-
-                var exceptionName = exception.GetType().Name;
-                var eventId = new EventId(context.TraceIdentifier.GetHashCode(), exceptionName);
-
-                var problemDetails = new ProblemDetails
-                {
-                    Detail = showDetails ? exception.ToString() : null,
-                    Instance = $"urn:{applicationName}:{eventId.Id.ToString()}",
-                    Title = exception.Message,
-                    Type = exceptionName,
-                    Status = (int)exceptionsCode.Get(exception),
-                };
-
-                logger?.LogError(eventId: eventId, exception: exception, message: exception.Message, context.Request);
-
-                context.Response.StatusCode = problemDetails.Status.Value;
-                await context.Response.WriteJsonAsync(problemDetails).ConfigureAwait(false);
-            }));
-
-            return app;
-        }
+        return services;
     }
 }
+

@@ -1,32 +1,38 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
     <Authors>f.fabrizi91@gmail.com</Authors>
     <Description>Web API exceptions and model state errors handler, returning a standard json response</Description>
     <Copyright>f.fabrizi91@gmail.com</Copyright>
-    <PackageIconUrl>https://image.flaticon.com/icons/svg/179/179429.svg</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TheTrigger/TriggerExceptionHandler.git</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TheTrigger/TriggerExceptionHandler.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>3.1.2</AssemblyVersion>
-    <FileVersion>3.1.2</FileVersion>
-    <Version>3.1.2</Version>
+    <AssemblyVersion>6.0.8</AssemblyVersion>
+    <FileVersion>6.0.8</FileVersion>
+    <Version>6.0.8</Version>
     <PackageTags>exceptions, json, web, api</PackageTags>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <LangVersion>8</LangVersion>
+    <LangVersion>11.0</LangVersion>
     <PackageReleaseNotes>refactoring</PackageReleaseNotes>
     <Company>oibi.dev</Company>
     <Product>TriggerExceptionHandler</Product>
+    <ApplicationIcon>cancel.ico</ApplicationIcon>
+    <OutputType>Library</OutputType>
+	<IsPackable>true</IsPackable>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+    <Content Include="cancel.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ben.Demystifier" Version="0.4.1" />
+    <PackageReference Include="System.Text.Json" Version="6.0.8" />
   </ItemGroup>
 
 

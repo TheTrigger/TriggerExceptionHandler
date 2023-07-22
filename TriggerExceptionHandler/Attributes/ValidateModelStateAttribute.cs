@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TriggerExceptionHandler.Attributes
 {
@@ -9,7 +9,8 @@ namespace TriggerExceptionHandler.Attributes
         {
             if (!context.ModelState.IsValid)
             {
-                context.Result = new ValidationProblemDetailsResult();
+                var result = context.HttpContext.RequestServices.GetRequiredService<ValidationProblemDetailsResult>();
+                context.Result = result;
             }
         }
     }

@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <AssemblyVersion>2019.9.30.33</AssemblyVersion>
-    <FileVersion>2019.9.30.33</FileVersion>
-    <LangVersion>8</LangVersion>
+    <LangVersion>11.0</LangVersion>
     <StartupObject>TriggerExceptionHandler.Demo.Program</StartupObject>
   </PropertyGroup>
 
