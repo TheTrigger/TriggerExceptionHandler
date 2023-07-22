@@ -1,28 +1,28 @@
-name: NuGet Generation
-
-on:
-  push:
-    branches:
-      - master
+name: Build and Publish NuGet
 
 jobs:
   build:
-    runs-on: windows-latest
-    name: Update NuGet
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@master
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Build solution and generate NuGet package
-        run: |
-          dotnet build --configuration Release
-          cd TriggerExceptionHandler
-          dotnet pack -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -c Release -o \out
-      - name: Install NuGet client
-        uses: warrenbuckley/Setup-Nuget@v1
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.x'
 
-      - name: Set NuGet apiKey
-        run: nuget setApiKey ${{secrets.NUGET_APIKEY}}
+    - name: Build
+      run: dotnet build --configuration Release
 
-      - name: Push generated package to the registry
-        run: nuget push \out\*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+
+    - name: Pack
+      run: dotnet pack --no-build --configuration Release TriggerExceptionHandler/TriggerExceptionHandler.csproj --output .
+
+    - name: Push
+      env:
+        NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
+      run: dotnet nuget push Oibi.TestHelper.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
